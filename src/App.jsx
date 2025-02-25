@@ -10,36 +10,43 @@ const Lista = [
   { title: 'Pulp Fiction', genre: 'Thriller' },
 ];
     
-    function App() {
+function App() {
 
-      const [Elementi, setElementi] = useState(Lista);
+  const [Elementi, setElementi] = useState(Lista);
 
-      const [filteredElementi, setFilteredElementi] = useState( Elementi );
+  const [search, setSearch] = useState('')
 
-      const [search, setSearch] = useState('');
+  const [filteredElementi, setFilteredElementi] = useState( Elementi )
 
-      useEffect(() => {
-        console.log("Eseguita!")
+  useEffect(() => {
+    console.log("Eseguita!")
 
-          setFilteredElementi(
-            Elementi.filter( element => {
-              return element.genre.includes( search )
-            })
-          )
-      }, [ search ])
+    setFilteredElementi(
+      Elementi.filter( element => {
+      return element.genre.includes( search )
+      })
+    )
+  }, [ search ])
     
-      return (
-        <>    
-          <div className="container mt-5 w-50">
-            <h1>Elementi</h1>
-            <label for="generi">Filtra per genere:</label>
-            <select name="genere" id="genere" onChange={ (e) => setSearch(e.target.value)}>
-              <option value=""></option>
+    return (
+      <>    
+      <div className="container mt-5 w-50">
+        <h1>Elementi</h1>
+        <label for="generi">Filtra per genere:</label>
+          <select name="genere" id="genere"
+            onChange={ (e) => setSearch(e.target.value)}
+          >
+            <option value=""></option>
             {Elementi.map((element1, i) => {                                 
-                return (
-                  <option key={i} value={element1.genre}>{element1.genre}</option>
-                );
-              })}
+              return (
+                <option
+                key={i}
+                value={element1.genre}
+                >
+                  {element1.genre}
+                </option>
+              );
+            })}
             </select>
             <ul className="list-group">
               {filteredElementi.map((element, index) => {
@@ -52,7 +59,7 @@ const Lista = [
             </ul>
           </div>
         </>
-      );
-    }
+    );
+  }
     
-    export default App;
+export default App;

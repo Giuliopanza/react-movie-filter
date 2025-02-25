@@ -14,41 +14,35 @@ const Lista = [
 
       const [Elementi, setElementi] = useState(Lista);
 
-      const [newElemento, setNewElementi] = useState('');
+      const [filteredElementi, setFilteredElementi] = useState( Elementi );
 
-      const [search, setSearch] = useState('')
-
-      const [filteredElementi, setFilteredElementi] = useState( Elementi )
-    
-      const addElemento = (e) => {
-        e.preventDefault();
-        const Elemento = newElemento.trim();
-        setElementi([...Elementi, Elemento]);
-        setNewElementi('');
-      };
+      const [search, setSearch] = useState('');
 
       useEffect(() => {
-        setFilteredElementi(
-          Elementi.filter( element => {
-            return element.genre.toLowerCase().includes( search.toLowerCase() )
-          })
-        )
-      }, [ search, Elementi ])
+        console.log("Eseguita!")
+
+          setFilteredElementi(
+            Elementi.filter( element => {
+              return element.genre.includes( search )
+            })
+          )
+      }, [ search ])
     
       return (
         <>    
           <div className="container mt-5 w-50">
             <h1>Elementi</h1>
             <label for="generi">Filtra per genere:</label>
-            <select name="cars" id="cars">
+            <select name="genere" id="genere" onChange={ (e) => setSearch(e.target.value)}>
+              <option value=""></option>
             {Elementi.map((element1, i) => {                                 
                 return (
-                  <option key={i} value={element1.genre} onChange={ (e) => setSearch(e.target.value) }>{element1.genre}</option>
+                  <option key={i} value={element1.genre}>{element1.genre}</option>
                 );
               })}
             </select>
             <ul className="list-group">
-              {Elementi.map((element, index) => {
+              {filteredElementi.map((element, index) => {
                 return (
                   <li key={index} className="list-group-item">
                     {element.title}, {element.genre}
@@ -56,18 +50,6 @@ const Lista = [
                 );   
               })}
             </ul>
-
-            <form onSubmit={addElemento}>
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Cosa devi fare?"
-                value={newElemento}
-                onChange={(e) => setNewElementi(e.target.value)}
-              />
-    
-              <button className="btn btn-primary mt-3">Aggiungi</button>
-            </form>
           </div>
         </>
       );
